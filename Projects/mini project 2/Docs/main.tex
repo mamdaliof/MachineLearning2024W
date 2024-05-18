@@ -1,0 +1,553 @@
+\documentclass{article}
+
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage[margin=1in]{geometry}
+\usepackage{listings}
+\usepackage[hidelinks]{hyperref}
+\usepackage{subfigure}
+\usepackage{amsmath}
+\usepackage{subcaption}
+\usepackage{float}
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=teal,
+	filecolor=magenta,      
+	urlcolor=teal,
+	citecolor = teal
+}
+\usepackage{xcolor}
+\usepackage{xepersian}
+\setlength\headheight{28pt} 
+\settextfont[Path={./font/},
+Scale=1.3,]{IRLotus}
+\setlatintextfont[Scale=1]{Times New Roman}
+\renewcommand{\baselinestretch}{1.5}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\includegraphics[width=1cm]{img/Logo.png} 
+	یادگیری ماشین
+	-
+	مینی پروژه شماره 2}
+\lhead{\thepage}
+\rfoot{سیدمحمد حسینی}
+\lfoot{9821253}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\lstlistingname}{Code}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+
+\begin{document}
+	
+	\input{titlepage}
+	
+	\tableofcontents \clearpage
+	\listoffigures \clearpage
+	\listoftables \clearpage
+	\lstlistoflistings \clearpage
+	\newpage
+	
+	\section{ سوال اول}\label{Section1}
+	\subsection{بخش اول}
+	{\large \textbf{سوال}:} \\
+	فرض کنید در یک مسألۀ طبقه بندی دوکلاسه، دو لایۀ انتهایی شبکۀ شما فعال ساز 
+	\lr{ReLU}
+	و سیگموید است. چه اتفاقی می افتد؟‎\\
+	
+	{\large \textbf{پاسخ}:} 
+	
+	توابع فعال‌ساز
+	\lr{Relu}
+	و
+	\lr{Sigmoid}
+	جزو پرکاربردترین اجزاء در یک مدل یادگیری ماشین هستند که به‌منظور اضافه‌کردن خاصیت غیرخطی به مدل مورداستفاده قرار می‌گیرند. به‌منظور تحلیل اثر این دو تابع فعال‌ساز بهتر است ابتدا خواص هرکدام را به‌صورت مجزا بررسی کنیم.
+	\begin{itemize}
+		\item تابع فعال‌سازی
+		\lr{Sigmoid}:\\
+		تابع سیگموید مقداری بین 0 و 1 خروجی می‌دهد که می‌تواند به‌عنوان احتمال تفسیر شود. این تابع فعال‌سازی اصولاً به‌عنوان فعال‌ساز در آخرین لایه مدل‌های طبقه‌بندی استفاده می‌شود؛ زیرا تفسیر احتمالی مستقیمی از خروجی ارائه می‌دهد. از دیگر خواص تابع سیگموید مشتق‌پذیری آن است که از لحاظ برنامه‌نویسی کار را بسیار ساده می‌کند؛ زیرا همان‌طور که در
+		\autoref{sigmoid_d}
+		مشاهده می‌کنید مشتق تابع سیگموید رابطه‌ای است متشکل از خود تابع سیگموید.
+		\begin{equation}
+			\label{sigmoid_d}
+			\frac{d}{dx}\sigma(x) = \sigma(x) \cdot (1 - \sigma(x))
+		\end{equation}
+		\item تابع فعال‌سازی
+		\lr{ReLU}:\\
+		تابع
+		\lr{ReLU}
+		ساده‌ترین تابع فعال‌سازی غیرخطی است که مورداستفاده قرار می‌گیرد، این تابع به‌ازای مقادیر مثبت تابع همانی است و به‌ازای مقادیر منفی عدد 0 را به‌عنوان خروجی در نظر می‌گیرد که این مسئله به‌سادگی محاسبات هنگام
+		\lr{Back propagation}
+		بسیار کمک می‌کند. مشتق این تابع به‌ازای مقادیر مثبت برابر 1 و به‌ازای مقادیر منفی برابر 0 است.
+	\end{itemize}
+	حال باتوجه‌به توضیحات فوق می‌توانیم یک شبکه که دولایه انتهایی آن متشکل از یک تابع
+	\lr{ReLU} و \lr{Sigmoid}
+	است را بررسی کنیم. در این شبکه اطلاعات به‌دست‌آمده از
+	\lr{backbone}
+	شبکه به لایه یکی مانده به آخر ارسال می‌شود که با انجام یک عملیات خطی این اطلاعات به محیط دیگری تصویر می‌شوند که می‌توانند مقادیر مثبت و منفی را با هر اندازه‌ای داشته باشند، این مسئله به مقادیر موجود در
+	\lr{Wight} و \lr{Bias}
+	نورون بستگی دارد. حال خروجی نرون‌ها به لایه فعال‌ساز ارسال می‌شوند که در نتیجه آن مقادیر مثبت تبدیل خطی نگه داشته می‌شوند و مقادیر منفی به عدد 0 تصویر می‌شوند. باید توجه داشت که فعال‌ساز
+	\lr{ReLU}
+	به تعبیری همانند یک ماژول
+	\lr{Attention}
+	عمل می‌کند و در فرایند آموزش شبکه
+	\lr{Wight} و \lr{Bias}
+	نرون‌ها را به سمتی متمایل می‌کند که در صورت پیدانکردن
+	\lr{Feature}
+	معنی‌دار از ورودی خود، یک عدد منفی تولید کند. ایراد فعال‌ساز
+	\lr{ReLU}
+	این است که اگر لایه‌های پشت‌هم در شبکه، همگی مقدار مثبت تولید کنند، تمام تبدیل‌های خطی موجود در این لایه‌ها می‌توانند با یک تبدیل خطی شبیه‌سازی شوند که این مسئله باعث کاهش پیچیدگی مدل ما خواهد شد؛ بنابراین استفاده از روش‌های رگولاریزیشن و
+	\lr{Batch Normalization}
+	در کنار توابع فعال‌سازی که به‌صورت پیوسته رفتار غیرخطی دارند موجب رفع این مشکل خواهد شد. در ادامه این مسئله خروجی لایه یکی مانده به آخر وارد لایه تصمیم‌گیری خواهد شد؛ ورودی این لایه تماماً اعداد مثبت است و تبدیل خطی برای اینکه بتواند کلاس مثبت را از منفی جدا کند باید به‌گونه‌ای تنظیم شود که بتواند ورودی‌های تماماً مثبت را به یک عدد مثبت یا منفی تبدیل کند؛ زیرا تابع سیگموید در نقطه 0 مقدار 0.5 را دارد و اگر تبدیل خطی نتواند اعداد مثبت و منفی را از ورودی‌های تماماً مثبت استخراج کند، تابع سیگموید توانایی ایجاد خروجی مناسب را ندارد.
+	
+	\subsection{بخش دوم}
+	{\large \textbf{سوال}:} 
+	
+	یک جایگزین برای 
+	\lr{ReLU}
+	تابع
+	\lr{ELU}
+	می‌باشد . ضمن محاسبه گرادیان آن، حداقل یک مزیت آن را مطرح کنید
+	
+	{\large \textbf{پاسخ}:} 
+	\\ابتدا مشتق این تابع را محاسبه می‌کنیم:
+	\begin{align}
+		\label{ELU}
+		ELU(x) &=
+		\begin{cases}
+			x & \text{if } x > 0 \\
+			\alpha(e^x - 1) & \text{if } x \leq 0
+		\end{cases} 
+		\Rightarrow \nonumber \\
+		\frac{d}{dx} ELU(x) &=
+		\begin{cases}
+			1 & \text{if } x > 0 \\
+			\alpha e^x  & \text{if } x \leq 0
+		\end{cases}
+	\end{align}
+	
+	همانطور که در 
+	\autoref{ELU}
+	مشخص است مشتق این تابع برای مقادیر مثبت با تابع
+	\lr{ReLU}
+	تفاوتی ندارد اما برای مقادیر منفی برابر 
+	$e^x$
+	می‌باشد. همانطور که در قسمت قبل مطرح شد تابع
+	\lr{ReLU}
+	می‌تواند موجب این شود که در عمل تعداد لایه‌های شبکه کاهش پیدا کند اما با استفاده از تابع فعال‌ساز
+	\lr{ELU}
+	و استفاده از تکنیک‌های مناسب، می‌توانیم به این مشکل غلبه کنیم. علاوه‌بر این تابع
+	\lr{ELU}
+	در مشتق خود ناپیوستگی ندارد و  بر خلاف 
+	\lr{ReLU}‎
+	مقدار آن به ازای مقادیر منفی به آرامی برابر 
+	$-\alpha$
+	می‌شود.‎\cite{ml-cheatsheet-activation-functions}‎ 
+	
+	\subsection{بخش سوم}
+	در ابتدا با استفاده از توزیع یکنواخت تعداد 2000 داده ایجاد می‌کنیم و برچسب نقاطی که داخل مثلث مورد نظر هستند را به مقدار 1 و برچسب بقیه نقاط را 0 می‌کنیم. این عملات توسط کد زیر انجام گرفته است.
+	\begin{LTR}
+	\begin{lstlisting}[language=Python, caption=Example Python code]
+
+	def point_in_triangle(point, v1, v2, v3):
+		"""Check if point (px, py) is inside the triangle with vertices v1, v2, v3."""
+		# Unpack vertices
+		x1, y1 = v1
+		x2, y2 = v2
+		x3, y3 = v3
+		px, py = point
+		
+		# Vectors
+		v0 = (x3 - x1, y3 - y1)
+		v1 = (x2 - x1, y2 - y1)
+		v2 = (px - x1, py - y1)
+		
+		# Dot products
+		dot00 = np.dot(v0, v0)
+		dot01 = np.dot(v0, v1)
+		dot02 = np.dot(v0, v2)
+		dot11 = np.dot(v1, v1)
+		dot12 = np.dot(v1, v2)
+		
+		# Barycentric coordinates
+		invDenom = 1 / (dot00 * dot11 - dot01 * dot01)
+		u = (dot11 * dot02 - dot01 * dot12) * invDenom
+		v = (dot00 * dot12 - dot01 * dot02) * invDenom
+		
+		# Check if point is in triangle
+		return (u >= 0) and (v >= 0) and (u + v < 1)
+		
+	# Triangle vertices
+	v1 = (1, 0)
+	v2 = (2, 2)
+	v3 = (3, 0)
+		
+	# Generate random points
+	np.random.seed(53)
+		
+	x_coords = np.random.uniform(0, 4, 2000)
+	y_coords = np.random.uniform(-1, 3, 2000)
+	x_train = np.column_stack((x_coords, y_coords))
+		
+	x_coords = np.random.uniform(0, 4, 500)
+	y_coords = np.random.uniform(-1, 3, 500)
+	x_test = np.column_stack((x_coords, y_coords))
+		
+	# Label points based on whether they are inside the triangle
+	y_train = np.array([point_in_triangle(pt, v1, v2, v3) for pt in x_train]).astype(int)
+	y_test = np.array([point_in_triangle(pt, v1, v2, v3) for pt in x_test]).astype(int)
+
+	\end{lstlisting}
+	\end{LTR}
+کد فوق به منظور ایجاد 2000 نقطه و بررسی اینکه هر نقطه درون مختصات مثلث قرار دارد یا خیر نوشته شده است. تابع
+ \texttt{point\_in\_triangle}
+  بررسی می‌کند که آیا یک نقطه داخل مثلثی با رئوس داده شده قرار دارد. مختصات رئوس مثلث و نقطه مورد نظر به تابع داده می‌شودو سپس نسبت مختصات نقطه به مثلث مشخص می‌شود. نقاط تصادفی برای مجموعه‌های آموزشی و تست تولید و با استفاده از تابع مذکور برچسب‌گذاری می‌شوند. همانطور که در 
+  \autoref{fig: Q1 data}
+  نمایش داده شده است، دو مجموعه داده به منظور آموزش و ارزیابی مدل تولید شده است.
+  
+
+
+\begin{figure}[h] 
+	\centering
+	\subfigure[]{
+		\includegraphics[width=0.4\linewidth]{img/Q1_train_set.png}
+		}
+	\subfigure[]{
+		\includegraphics[width=0.4\linewidth]{img/Q1_test_set.png}
+		}
+	\caption{مجموعه داده تولید شده}
+	\label{fig: Q1 data}
+\end{figure}
+
+در ادامه یک مدل ‎\lr{MLP}‎‎ روی این مجموعه داده آموزش دیده است و نتایج آن به همراه 
+\lr{Decision boundary}‎ 
+آن نمایش داده شده است. مدل اول \lr{MLP}‎ با استفاده از توابع \lr{ReLU}‎ ایجاد شده است که جزییات آن به شرح زیر است:
+	
+\begin{LTR}
+\begin{verbatim}
+	MLP(
+	(layers): Sequential(
+	(0): Linear(in_features=2, out_features=8, bias=True)
+	(1): ReLU()
+	(2): Linear(in_features=8, out_features=64, bias=True)
+	(3): ReLU()
+	(4): Linear(in_features=64, out_features=8, bias=True)
+	(5): ReLU()
+	(6): Linear(in_features=8, out_features=1, bias=True)
+	(7): Sigmoid()
+	)
+	)
+\end{verbatim}
+\end{LTR}
+در ادامه مدل فوق با 
+\lr{config}
+زیر به میزان 150 
+\lr{Epoch}
+آموزش داده شده است.
+\begin{LTR}
+	\begin{lstlisting}[language=Python, caption= Configuration]
+		device = "cuda" if torch.cuda.is_available else "cpu"
+		model = MLP(input_size=2, hidden_size1=8, hidden_size2=64, hidden_size3=8, output_size=1).to(device)
+		optimizer = optim.Adam(model.parameters(), lr=0.001)		
+		criterion = nn.BCELoss()  # For binary classification
+		# DataLoader
+		train_loader = DataLoader(TensorDataset(x_train_tensor, y_train_tensor), batch_size=128, shuffle=True)
+		test_loader = DataLoader(TensorDataset(x_test_tensor, y_test_tensor), batch_size=512, shuffle=False)
+				
+	
+	\end{lstlisting}
+\end{LTR}
+کد زیر به منظور اجرای حلقه آموزش نوشته شده است.
+در این کد، چندین متغیر برای نگه‌داری اطلاعات مانند تاریخچه‌ی خطاها و معیارهای متریکی مورد استفاده قرار گرفته است. سپس یک حلقه تکرار برای ایپاک‌های مختلف اجرا می‌شود. در هر ایپاک، داده‌های آموزشی بارگذاری شده و مدل در حالت آموزش قرار می‌گیرد. سپس خطا محاسبه می‌شود و بهینه‌سازی می‌شود. معیارهای متریکی مورد نظر نیز برای داده‌های آموزشی توسط توابعی که مستقلا پیاده‌سازی شده‌اند محاسبه می‌شوند. سپس مدل به حالت ارزیابی در آورده می‌شود و برای داده‌های تست خطا و معیارهای متریکی محاسبه می‌شود. در انتهای آموزش، این اطلاعات برای تحلیل و نمایش خروجی‌های آموزش به دست می‌آید. 
+
+\begin{LTR}
+	\begin{lstlisting}[language=Python, caption=حلقه آموزش]
+num_epochs = 150
+train_loss_hist = []
+test_loss_hist = []
+train_metrics = []
+test_metrics = []
+
+for epoch in range(num_epochs):
+    loop = tqdm(train_loader)
+    model.train()
+    train_loss = 0.0
+    train_TP, train_FP, train_TN, train_FN = 0, 0, 0, 0
+
+    print("train")
+    for inputs, labels in loop:
+        inputs = inputs.to(device)
+        labels = labels.to(device)
+        
+        outputs = model(inputs)
+        loss = criterion(outputs, labels)
+
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+        train_loss += loss.item()
+
+        TP, FP, TN, FN = calculate_metrics(outputs, labels)
+        train_TP += TP
+        train_FP += FP
+        train_TN += TN
+        train_FN += FN
+        
+        loop.set_postfix(
+            epoch=epoch+1,
+            total_loss=train_loss / len(train_loader),
+        )
+    
+    train_metrics.append((train_TP, train_FP, train_TN, train_FN))
+    train_loss_hist.append(train_loss / len(train_loader))
+    
+    model.eval()
+    torch.cuda.empty_cache()
+    test_loss = 0.0
+    test_TP, test_FP, test_TN, test_FN = 0, 0, 0, 0
+    print("Test:")
+    
+    with torch.no_grad():
+        loop = tqdm(test_loader)
+        for inputs, labels in loop:
+            inputs = inputs.to(device)
+            labels = labels.to(device)
+
+            outputs = model(inputs)
+            loss = criterion(outputs, labels)
+            
+            test_loss += loss.item()
+            
+            TP, FP, TN, FN = calculate_metrics(outputs, labels)
+            test_TP += TP
+            test_FP += FP
+            test_TN += TN
+            test_FN += FN
+            
+            loop.set_postfix(
+                loss=loss.item(),
+                total_loss=test_loss / len(test_loader),
+            )
+    test_metrics.append((test_TP, test_FP, test_TN, test_FN))
+    test_loss_hist.append(test_loss / len(test_loader))
+	\end{lstlisting}
+\end{LTR}
+
+\newpage
+\subsubsection{نتایج MLP با تابع فعال‌ساز ReLU}
+
+در ‎‎\autoref{fig:Q1 relu training graph}‎ نتایج مربوط به این آموزش نشان داده شده است. همانطور که مشخص است فرآیند آموزش برای مدل ‎\lr{MLP} به درستی انجام شده و مدل روی دیتاست آموزش \lr{over fit}‎ نشده است این درحالی است که میزان متریک‌ها برای هر دو دیتاست به 1 بسیار نزدیک شده است.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{img/Q1_Relu_metrics_graph.png}
+    \caption{نمودارهای متریک و تابع هزینه حین آموزش}
+    \label{fig:Q1 relu training graph}
+\end{figure}
+
+در ‎\autoref{fig:Q1 relu result}‎ نتیجه عملکرد مدل روی دیتای ارزیابی قابل ملاحضه است و همانطور که مشخص است تنها 2 نقطه در راس بالایی مثلث اشتباه طبقه بندی شده‌اند این درحالی است که هیچ کلاسی که متعلق به داخل دایره بوده، به اشتباه به عنوان یک کلاس در خارج از دایره تشخیص داده نشده است، به عبارت دیگر
+\lr{False Negative}
+ برابر صفر است و  \lr{‎Precision} برابر 1 است.
+ 
+ در انتها در ‎\autoref{fig:Q1 relu db}‎  مرز تصمیم مدل مشخص است که با توجه با این نمودار مرز حوالی راس پایین سمت راست مثلث از دقت کافی برخوردار نیست.
+
+\begin{figure}[H] 
+	\centering
+	\subfigure[]{
+		\includegraphics[width=0.4\linewidth]{img/Q1_relu_results.png}
+		\label{fig:Q1 relu result}
+		}
+	\subfigure[]{
+		\includegraphics[width=0.4\linewidth]{img/Q1_relu_db.png}
+	    \label{fig:Q1 relu db}
+		}
+\caption{نتایح مدل MLP و مرز تصمیم مربوط به مدل}
+\end{figure}
+
+
+در ‎ \autoref{fig: Q1 relu cm}‎ماتریس درهم‌ریختگی به صورت نرمال و غیرنرمال نشان داده شده است که نشان می‌دهد مدل تنها دو نقطه را که مطعلق به داخل مثل بوده است به اشتباه به عنوان کلاس خارج از مثلث تشخیص داده است.
+\begin{figure}[H] 
+	\centering
+	\subfigure[]{
+		\includegraphics[width=0.4\linewidth]{img/Q1_relu_cm.png}
+		}
+	\subfigure[]{
+		\includegraphics[width=0.4\linewidth]{img/Q1_relu_cmn.png}
+		}
+	\caption{Confusion Matrix}
+	\label{fig: Q1 relu cm}
+\end{figure}
+
+
+
+
+\subsubsection{نتایج MLP با تابع فعال‌ساز ELU}
+
+این مدل با استفاده از تابع ELU ساخته شده است و جزییات آن به شرج زیر می‌باشد:
+
+\begin{LTR}
+\begin{verbatim}
+	MLP(
+	  (layers): Sequential(
+	    (0): Linear(in_features=2, out_features=8, bias=True)
+	    (1): ELU(alpha=1.0)
+	    (2): Linear(in_features=8, out_features=64, bias=True)
+	    (3): ELU(alpha=1.0)
+	    (4): Linear(in_features=64, out_features=8, bias=True)
+	    (5): ELU(alpha=1.0)
+	    (6): Linear(in_features=8, out_features=1, bias=True)
+	    (7): Sigmoid()
+	  )
+	)
+\end{verbatim}
+\end{LTR}
+
+در ‎‎\autoref{fig:Q1 elu training graph}‎ نتایج مربوط به این آموزش نشان داده شده است. همانطور که مشخص است فرآیند آموزش برای مدل ‎\lr{MLP} با تابع فعال‌ساز \lr{ELU}‎به درستی انجام شده و مدل روی دیتاست آموزش \lr{over fit}‎ نشده است این درحالی است که شیب نمودار هزینه همچنان کاهشی می‌باشد.در ادامه میزان متریک‌ها برای هر دو دیتاست به 1 بسیار نزدیک شده است.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{img/Q1_elu_metrics_graph.png}
+    \caption{نمودارهای متریک و تابع هزینه حین آموزش}
+    \label{fig:Q1 elu training graph}
+\end{figure}
+
+در ‎\autoref{fig:Q1 elu result}‎ نتیجه عملکرد مدل روی دیتای ارزیابی قابل ملاحضه است و همانطور که مشخص است تنها 2 نقطه در راس بالایی مثلث اشتباه طبقه بندی شده‌اند این درحالی است که هیچ کلاسی که متعلق به داخل دایره بوده، به اشتباه به عنوان یک کلاس در خارج از دایره تشخیص داده نشده است، به عبارت دیگر
+\lr{False Negative}
+ برابر صفر است و  \lr{‎Precision} برابر 1 است.
+ 
+در ‎\autoref{fig:Q1 elu db}‎  مرز تصمیم مدل مشخص است که با توجه به این نمودار و مقایسه آن با ‎\autoref{fig:Q1  relu db}‎، مشخص است که نتایج بدست آمده از این مدل توانایی تعمیم‌پذیری بیشتری دارند و هر سه راس این مثلث به یک شکل هستند.
+
+\begin{figure}[H] 
+	\centering
+	\subfigure[]{
+		\includegraphics[width=0.4\linewidth]{img/Q1_elu_results.png}
+		\label{fig:Q1 elu result}
+		}
+	\subfigure[]{
+		\includegraphics[width=0.4\linewidth]{img/Q1_elu_db.png}
+	    \label{fig:Q1 elu db}
+		}
+\caption{نتایح مدل MLP و مرز تصمیم مربوط به مدل}
+\end{figure}
+
+
+در ‎ \autoref{fig: Q1 elu cm}‎ماتریس درهم‌ریختگی به صورت نرمال و غیرنرمال نشان داده شده است که نشان می‌دهد مدل تنها دو نقطه را که مطعلق به داخل مثل بوده است به اشتباه به عنوان کلاس خارج از مثلث تشخیص داده است.
+\begin{figure}[H] 
+	\centering
+	\subfigure[]{
+		\includegraphics[width=0.4\linewidth]{img/Q1_elu_cm.png}
+		}
+	\subfigure[]{
+		\includegraphics[width=0.4\linewidth]{img/Q1_elu_cmn.png}
+		}
+	\caption{Confusion Matrix}
+	\label{fig: Q1 elu cm}
+\end{figure}
+
+
+
+
+
+\subsubsection{نتایج مدل بر مبنای mcculloch-pitts نرون}
+
+مدل‌های مبتنی بر نرون‌های mcculloch-pitts به ما این امکان را می‌دهند که با استفاده از دانش انسانی، بهترین پاسخ را برای مسئله خود بدست بیاوریم. راه حلی که می‌توانیم نقاط داخل مثلث را شناسایی کنیم حاصل ترکیب AND 3 گزاره متفاوت است؛ هر یک از این گذاره‌ها نشان‌دهنده این است که نقطه مد نظر ما نسبت به خط گذرنده از هر ضلع مثلث چه وضعیتی دارد. بدین منظور باید سه معادله خط بدست آوریم و با قرار دادن نقاط اطراف خط مشخص کنیم که تغییر علامت چه زمانی رخ می‌دهد و با چه ترکیب منطقی از این تغییر علامت‌ها می‌توانیم مثلث را پیدا کنیم.
+ 
+
+در ‎‎\autoref{fig:Q1 elu training graph}‎ نتایج مربوط به این آموزش نشان داده شده است. همانطور که مشخص است فرآیند آموزش برای مدل ‎\lr{MLP} با تابع فعال‌ساز \lr{ELU}‎به درستی انجام شده و مدل روی دیتاست آموزش \lr{over fit}‎ نشده است این درحالی است که شیب نمودار هزینه همچنان کاهشی می‌باشد.در ادامه میزان متریک‌ها برای هر دو دیتاست به 1 بسیار نزدیک شده است.
+روش محاسبه هر یک از این معادلات خط با قرار دادن یک جفت از راس‌های مثلث در معادله زیر می‌باشد:
+
+\begin{align}
+y &= w(x-x_1)+y_1 ,\quad w = \frac{y_1-y_2}{x_1-x_2}
+\end{align}
+با استفاده از رابطه فوق سه جفت مقدار برای هر معادله خط بدست آمد که این مقادیر عبارتند از
+$(-2,1)$، $(2,1)$ و $(0,1)$
+که سه ضلع مثلث را تشکیل می‌دهند. در ادامه یک نرون لازم است تا عملیات منطقی AND را انجام دهد. با جایگذاری نقاط مختلف از صفحه در معادلات خط بدست آمده و مقایسه آنها رابطه منطقی زیر بدست می‌آید:
+$$l_1'+l_2'+l_3$$
+
+مدل مرتبط با روابط فوق به شکل زیر در پایتون قابل پیاده‌سازی می‌باشد:
+ \begin{LTR}
+ 	\begin{lstlisting}[language=Python, caption=حلقه آموزش]
+		#define muculloch pitts
+		class McCulloch_Pitts_neuron():
+		
+		  def __init__(self , weights ,bias, threshold):
+		    self.weights = np.array(weights).reshape(-1, 1)     #define weights
+		    self.threshold = threshold    #define threshold
+		    self.bias = np.array(bias)
+		    
+		  def model(self , x):
+		    #define model with threshold
+		    return (x.T @ self.weights + self.bias >= self.threshold).astype(int)
+		    
+		def model(x):
+		    neur1 = McCulloch_Pitts_neuron([-2, 1],2, 0)
+		    neur2 = McCulloch_Pitts_neuron([2, 1], -6, 0)
+		    neur3 = McCulloch_Pitts_neuron([0, 1], 0, 0)
+		    neur4 = McCulloch_Pitts_neuron([1, 1, 1], 0, 3)
+		
+		    z1 = neur1.model(np.array(x))
+		    z2 = neur2.model(np.array(x))
+		    z3 = neur3.model(np.array(x))
+		    z4 = np.squeeze(np.array([1-z1, 1-z2, z3]), axis=-1)
+		    z4 = neur4.model(z4)
+		
+		    # 3 bit output
+		    # return str(z1) + str(z2)
+		    return z4
+		
+ 	\end{lstlisting}
+ \end{LTR}
+
+
+همانطور که در ‎\autoref{fig:Q1 mp db}‎ مشخص است یک مثلث دقیق بدست آمده است و انتظار می‌رود که نتایج ماتریس درهم‌ریختگی آن بهترین وضعیت ممکن باشد که این مسئله در ‎\autoref{fig: Q1 mp cm}‎ قابل مشاهده است.
+
+\begin{figure}[H] 
+	\centering
+		\includegraphics[width=0.4\linewidth]{img/Q1_cp_db.png}
+		\label{fig:Q1 mp db}
+\caption{mcculloch-pitts و مرز تصمیم مربوط به مدل}
+\end{figure}
+
+
+\begin{figure}[H] 
+	\centering
+	\subfigure[]{
+		\includegraphics[width=0.4\linewidth]{img/Q1_cp_cm.png}
+		}
+	\subfigure[]{
+		\includegraphics[width=0.4\linewidth]{img/Q1_cp_cmn.png}
+		}
+	\caption{Confusion Matrix}
+	\label{fig: Q1 mp cm}
+\end{figure}
+
+
+	\bibliographystyle{plain}
+	\bibliography{references}
+\end{document}
+
