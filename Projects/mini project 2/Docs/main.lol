@@ -8,3 +8,7 @@
 \contentsline {lstlisting}{\numberline {8}{\ignorespaces Normalization and One-hot}}{21}{lstlisting.8}%
 \contentsline {lstlisting}{\numberline {9}{\ignorespaces Model and Configuration}}{21}{lstlisting.9}%
 \contentsline {lstlisting}{\numberline {10}{\ignorespaces Train Loop}}{22}{lstlisting.10}%
+\contentsline {lstlisting}{\numberline {11}{\ignorespaces Data Selection}}{29}{lstlisting.11}%
+\contentsline {lstlisting}{\numberline {12}{\ignorespaces Train Decision Tree}}{29}{lstlisting.12}%
+\contentsline {lstlisting}{\numberline {13}{\ignorespaces Grid search}}{32}{lstlisting.13}%
+\contentsline {lstlisting}{\numberline {14}{\ignorespaces best alpha}}{36}{lstlisting.14}%

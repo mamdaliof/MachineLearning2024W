@@ -1,5 +1,18 @@
 \begin{thebibliography}{1}
 
+\bibitem{geeksforgeeks2023differences}
+GeeksforGeeks.
+\newblock Differences between random forest and adaboost.
+\newblock {\em GeeksforGeeks}, 2023.
+\newblock Accessed: 2024-05-20.
+
+\bibitem{towardsdatascience2020ensemblelearning}
+Towards~Data Science.
+\newblock Basic ensemble learning: Random forest, adaboost, gradient boosting
+  — step by step explained.
+\newblock {\em Towards Data Science}, 2020.
+\newblock Accessed: 2024-05-20.
+
 \bibitem{ml-cheatsheet-activation-functions}
 Avinash Yuan.
 \newblock {Machine Learning Cheatsheet: Activation Functions}, n.d.
