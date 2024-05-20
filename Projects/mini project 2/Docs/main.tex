@@ -20,8 +20,14 @@
 \usepackage{xcolor}
 \usepackage{xepersian}
 \setlength\headheight{28pt} 
-\settextfont[Path={./font/},
-Scale=1.3,]{IRLotus}
+\settextfont[
+    Path = ./font/, % specify the path to the font files
+    Scale = 1.3,
+    UprightFont = XB Niloofar, % Regular font
+    BoldFont = XB NiloofarBd,       % Bold font
+    ItalicFont = XB NiloofarIt,   % Italic font
+    BoldItalicFont = XB NiloofarBdIt % Bold Italic font if available
+]{XB Niloofar}
 \setlatintextfont[Scale=1]{Times New Roman}
 \renewcommand{\baselinestretch}{1.5}
 \pagestyle{fancy}
@@ -172,7 +178,7 @@ Scale=1.3,]{IRLotus}
 	\subsection{بخش سوم}
 	در ابتدا با استفاده از توزیع یکنواخت تعداد 2000 داده ایجاد می‌کنیم و برچسب نقاطی که داخل مثلث مورد نظر هستند را به مقدار 1 و برچسب بقیه نقاط را 0 می‌کنیم. این عملات توسط کد زیر انجام گرفته است.
 	\begin{LTR}
-	\begin{lstlisting}[language=Python, caption=Example Python code]
+	\begin{lstlisting}[language=Python, caption=data generation]
 
 	def point_in_triangle(point, v1, v2, v3):
 		"""Check if point (px, py) is inside the triangle with vertices v1, v2, v3."""
@@ -546,8 +552,444 @@ $$l_1'+l_2'+l_3$$
 	\label{fig: Q1 mp cm}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Q2
 
-	\bibliographystyle{plain}
-	\bibliography{references}
+\section{سوال2}
+
+\subsection{بخش اول}
+
+{\large \textbf{سوال}:} 
+
+در مورد دیتاست CWRU Bearin و عیوب موجود توضیح دهید. 
+
+{\large \textbf{پاسخ}:} 
+
+دیتاست استفاده شده برای این پروژه، دیتاست CWRU Bearing است. این دیتاست شامل داده‌های ارتعاشی از بلبرینگ‌ها در شرایط مختلف، شامل حالت‌های سالم و معیوب است. در این مینی‌پروژه، ما بر روی داده‌های بخش
+ \lr{12k Drive End Bearing Fault Data} 
+ تمرکز می‌کنیم.
+علاوه بر داده‌های استفاده شده در مینی‌پروژه قبلی، ما اکنون دو کلاس جدید
+ \lr{OR007@6\_1} و \lr{B007\_1}
+ از بلبرینگ‌های معیوب را اضافه می‌کنیم. این گسترش پیچیدگی و تنوع بیشتری به داده‌ها اضافه می‌کند و امکان تحلیل جامع‌تر و آموزش مدل قوی‌تر را فراهم می‌کند.
+انواع داده‌های معیوب و توضیحات آن به شرح زیر می‌باشد:
+\begin{itemize}
+    \item \textbf{سالم:} داده‌هایی که نشان‌دهنده بلبرینگ‌های در عادی خوب هستند.
+    \item \textbf{کلاس معیوب 1 \lr{OR007@6\_1}:} این عیوب در قسمت بیرونی بلبرینگ رخ می‌دهد و می‌تواند ارتعاش و نویز قابل توجهی ایجاد کند که عملکرد کلی ماشین‌آلات را تحت تاثیر قرار می‌دهد.
+    \item \textbf{کلاس معیوب 2 \lr{B007\_1}:} این عیوب در سطح بلبرینگ‌ها رخ می‌دهد و با نامنظمی‌هایی در سطح بلبرینگ‌ها همراه است.
+    \item \textbf{کلاس معیوب 3 \lr{(IR007\_1)}:} این عیوب در قسمت داخلی بلبرینگ رخ می‌دهد و باعث ایجاد ناهنجاری در عملکرد کلی بلبرینگ می‌شود.
+\end{itemize}
+
+\subsection{پیش‌پردازش}
+
+کد زیر یک چنجره به طول 
+\texttt{len\_data}
+را روی سری زمانی عبور می‌دهد و داده7ها را به شکل یک ماتریس 
+$(n, \texttt{len\_data})$
+ایجاد می‌کند که مقدار n با توجه به تعداد داده موجود در فایل دیتا بستگی دارد. سپس با توجه به متغییر ‎\texttt{n‎\_samples} تعداد نمونه دلخواه را جدا می‌کنیم. به دلیل اینکه در این مسئله تصمیم به آموزش یک شبکه عصبی داریم بیشترین تعداد داده ممکن را از دیتاست استخراج می‌کنیم که برابر 600 نمونه پنجره با طول 200 است.‎
+\begin{LTR}
+	\begin{lstlisting}[language=Python, caption=Sliding Window]
+	n_samples = 600
+	len_data = 200
+	
+	normal_data_matrix = normal_data[:-(normal_data.shape[0] % len_data)].reshape(-1, len_data)
+	fault1_data_matrix = fault1_data[:-(fault1_data.shape[0] % len_data)].reshape(-1, len_data)
+	fault2_data_matrix = fault2_data[:-(fault2_data.shape[0] % len_data)].reshape(-1, len_data)
+	fault3_data_matrix = fault3_data[:-(fault3_data.shape[0] % len_data)].reshape(-1, len_data)
+	\end{lstlisting}
+\end{LTR}
+
+در ادامه خروجی کد فوق نشان داده شده است.
+\begin{LTR}
+\begin{verbatim}
+(2419, 200)
+(609, 200)
+(607, 200)
+(612, 200)
+\end{verbatim}
+\end{LTR}
+
+در ادامه با استفاده از کد زیر 
+\lr{feature}های
+ممکن را از هر پنجره از داده استخراج می‌کنیم و سپس ویژگی‌هایی که مد نظر هست را انتخاب می‌کنیم.
+
+\begin{LTR}
+	\begin{lstlisting}[language=Python, caption=Feature Extraction and Feature Selection]
+def feature_extraction(data):
+    features = {}
+    # Standard Deviation
+    features['Standard Deviation'] = np.std(data, axis=1)
+    # Peak
+    features['Peak'] = np.max(np.abs(data), axis=1)
+    # Skewness
+    features['Skewness'] = scipy.stats.skew(data, axis=1)
+    # Kurtosis
+    features['Kurtosis'] = scipy.stats.kurtosis(data, axis=1)
+    # Crest Factor (peak divided by RMS)
+    rms = np.sqrt(np.mean(np.square(data), axis=1))
+    features['Crest Factor'] = features['Peak'] / rms
+    # Clearance Factor (peak divided by the mean of the square root of the absolute values)
+    features['Clearance Factor'] = features['Peak'] / np.mean(np.sqrt(np.abs(data)), axis=1)
+    # Peak to Peak
+    features['Peak to Peak'] = np.ptp(data, axis=1)
+    # Shape Factor (RMS divided by the mean of the absolute values)
+    features['Shape Factor'] = rms / np.mean(np.abs(data), axis=1)
+    # Impact Factor (peak divided by mean)
+    features['Impact Factor'] = features['Peak'] / np.mean(data, axis=1)
+    # Square Mean Root (the square root of the mean of the squares)
+    features['Square Mean Root'] = rms
+    # Mean
+    features['Mean'] = np.mean(data, axis=1)
+    # Absolute Mean
+    features['Absolute Mean'] = np.mean(np.abs(data), axis=1)
+    # Root Mean Square
+    features['Root Mean Square'] = rms
+    # Impulse Factor (peak divided by the absolute mean)
+    features['Impulse Factor'] = features['Peak'] / features['Absolute Mean']
+    return features
+normal_features = pd.DataFrame(feature_extraction(normal_data_matrix))
+fault1_features = pd.DataFrame(feature_extraction(fault1_data_matrix))
+fault2_features = pd.DataFrame(feature_extraction(fault2_data_matrix))
+fault3_features = pd.DataFrame(feature_extraction(fault3_data_matrix))
+normal_features['Label'] = 0
+fault1_features['Label'] = 1
+fault2_features['Label'] = 2
+fault3_features['Label'] = 3
+
+selected_features = ['Standard Deviation', 'Peak', 'Skewness', 'Kurtosis',
+                     'Crest Factor', 'Mean', 'Root Mean Square',
+                     'Impulse Factor','Square Mean Root','Shape Factor','Label']
+
+main_df = pd.concat([normal_features, fault1_features, fault2_features, fault3_features], ignore_index=True)
+df = main_df[selected_features]
+	\end{lstlisting}
+\end{LTR}
+
+در ادامه تقسیم دیتاست به 3 زیرمجموعه آموزش، ارزیابی و آزمون انجام شده است که به موجب آن ابتدا به صورت تصادفی 
+\lr{shuffle}
+می‌شوند و پس از آن یک بار به صورت عادی و بار بعدی به صورت 
+\texttt{stratify}
+تقسیم داده انجام می‌شود. با مشخص کردن آرگمان 
+\texttt{stratify}
+باعث می‌شویم که توزیع داده در زیرمجموعه آزمون و ارزیابی بهم نریزد. تقسیم مجموعه داده با استفاده از آرگمان فوق باعث بهبود نتایج آموزش مدل نسبت به شرایطی که انتخاب هر زیرمجموعه به صورت کاملا تصادفی بوده، شده است.
+
+اضافه کردن مجموعه داده اعتبارسنجی و بررسی تابع هزینه روی این مجموعه داده حین آموزش، موجب آن میشود که از اتفاق افتادن 
+\lr{over-fitting}
+جلوگیری شود.
+\begin{LTR}
+	\begin{lstlisting}[language=Python, caption=Train\, Validatiaon\, Test Split]
+df_shuffled = df.sample(frac=1).reset_index(drop=True)
+
+X = df_shuffled.drop('Label', axis=1)
+y = df_shuffled['Label']
+
+# X_train_raw, X_test_raw, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=53)
+# X_train_raw, X_val_raw, y_train, y_val = train_test_split(X_train_raw, y_train, test_size=0.25, random_state=53)
+X_train_raw, X_test_raw, y_train, y_test = train_test_split(X, y, test_size=0.20, stratify=y, random_state=53)
+X_train_raw, X_val_raw, y_train, y_val = train_test_split(X_train_raw, y_train, test_size=0.25, stratify=y_train, random_state=53)
+	\end{lstlisting}
+\end{LTR}
+
+\subsection{بخش دوم}
+\label{section2}
+ در ادامه مجموعه داده بدست آمده را نرمال می‌کنیم، باید توجه داشت که مقادیر میانگین و واریانسی که به منظور نرمال کردن مجموعه داده ارزیابی و آزمون در نظر گرفته شده است از مجموعه داده آموزش بدست آمده است. در انتها متناسب با عدد موجود در Label هر داده، یک آرایه به صورت 
+One-hot
+به آن داده اختصاص داده شده است.
+ 
+\begin{LTR}
+	\begin{lstlisting}[language=Python, caption=Normalization and One-hot]
+ X_train, X_train_max, X_train_min = min_max_normalization(X_train_raw)
+ X_test, _, _ = min_max_normalization(X_test_raw,X_train_max,X_train_min)
+ X_val, _, _ = min_max_normalization(X_val_raw,X_train_max,X_train_min)
+ 
+ X_train = torch.tensor(X_train.to_numpy(), dtype=torch.float32)
+ X_val = torch.tensor(X_val.to_numpy(), dtype=torch.float32)
+ X_test = torch.tensor(X_test.to_numpy(), dtype=torch.float32)
+ 
+ y_train = torch.tensor(y_train.to_numpy(), dtype=torch.long)
+ y_val = torch.tensor(y_val.to_numpy(), dtype=torch.long)
+ y_test = torch.tensor(y_test.to_numpy(), dtype=torch.long)
+ 
+ # Perform one-hot encoding
+ y_train = torch.nn.functional.one_hot(y_train, num_classes=4).float()
+ y_val = torch.nn.functional.one_hot(y_val, num_classes=4).float()
+ y_test = torch.nn.functional.one_hot(y_test, num_classes=4).float()
+	\end{lstlisting}
+\end{LTR} 
+
+در ادامه یک مدل MLP با سه لایه پنهان ایجاد می‌کنیم که شرح تعداد نرون‌های آن در کد زیر آمده است سپس با مقدار‌دهی اولیه مدل، یک شی در محیط برنامه نویسی ایجاد می‌کنیم. پارامتر بعدی که در آموزش این مدل استفاده شده است تابع هزینه 
+\texttt{CrossEntropyLoss}
+است که یک شی از آن با مقادیر پیش‌فرض ایجاد شده است. تابع بهینه ساز این مدل از الگوریتم Adam پیروی میکند که با گام اموزشی اولیه 
+$0.001 $
+شروع به بهینه کردن مدل می‌کند و در ادامه با استفاده از تابع 
+\texttt{lr\_scheduler}
+اگر طی 15 
+Epoch
+ بهبودی در نتایج تابع هزینه روی مجموعه داده ارزیابی رخ ندهد، میزان گام آموزشی 0.1 مقدار قبلی خود خواهد شد. 
+\begin{LTR}
+	\begin{lstlisting}[language=Python, caption=Model and Configuration]
+class MLP(nn.Module):
+    def __init__(self, input_dim, output_dim):
+        super(MLP, self).__init__()
+        self.hidden1 = nn.Linear(input_dim, 32)
+        self.hidden2 = nn.Linear(32, 64)
+        self.output = nn.Linear(64, output_dim)
+        self.relu = nn.ReLU()
+        self.softmax = nn.Softmax(dim=1)
+
+    def forward(self, x):
+        x = self.relu(self.hidden1(x))
+        x = self.relu(self.hidden2(x))
+        x = self.output(x)
+        x = self.softmax(x)
+        return x
+        
+# Initialize the model, loss function, and optimizer
+model = MLP(input_dim=X_train.shape[1], output_dim=len(set(y)))
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.Adam(model.parameters(), lr=0.001)
+scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=15, verbose=True)
+	\end{lstlisting}
+\end{LTR}         
+        
+در انتها مدل با استفاده از کد زیر آموزش داده می‌شود؛ باید توجه داشته که کد زیر با بررسی تغییرات تابع هزینه دستاست ارزیابی، میزان بهبود آن را بررسی می‌کند و اگر به ازای 30 
+Epoch
+بهبود محسوس رخ ندهد فرایند آموزش متوقف می‌شود.
+\begin{LTR}
+	\begin{lstlisting}[language=Python, caption=Train Loop]       
+# Training loop with early stopping
+num_epochs = 500
+patience = 30
+best_val_loss = float('inf')
+epochs_without_improvement = 0
+Best_model = None
+
+# Metrics storage
+train_losses = []
+val_losses = []
+train_accuracies = []
+val_accuracies = []
+
+for epoch in range(num_epochs):
+    model.train()
+    train_loss = 0.0
+    train_correct = 0
+    total_train = 0
+
+    for inputs, labels in train_loader:
+        optimizer.zero_grad()
+        outputs = model(inputs)
+        loss = criterion(outputs, labels)
+        loss.backward()
+        optimizer.step()
+        train_loss += loss.item()
+
+        _, preds = torch.max(outputs, 1)
+        _, targets = torch.max(labels,1)
+        train_correct += (preds == targets).sum().item()
+        total_train += labels.size(0)
+
+    train_loss /= len(train_loader)
+    train_accuracy = train_correct / total_train
+    train_losses.append(train_loss)
+    train_accuracies.append(train_accuracy)
+
+    model.eval()
+    val_loss = 0.0
+    val_correct = 0
+    total_val = 0
+    with torch.no_grad():
+        for inputs, labels in val_loader:
+            outputs = model(inputs)
+            loss = criterion(outputs, labels)
+            val_loss += loss.item()
+
+            _, preds = torch.max(outputs, 1)
+            _, targets = torch.max(labels,1)
+            val_correct += (preds == targets).sum().item()
+            total_val += labels.size(0)
+
+    val_loss /= len(val_loader)
+    val_accuracy = val_correct / total_val
+    val_losses.append(val_loss)
+    val_accuracies.append(val_accuracy)
+
+    print(f'Epoch {epoch+1}/{num_epochs}, Train Loss: {train_loss:.4f}, Val Loss: {val_loss:.4f}, Train Accuracy: {train_accuracy:.4f}, Val Accuracy: {val_accuracy:.4f}')
+
+    scheduler.step(val_loss)
+    
+    if  best_val_loss - val_loss > 1e-3:
+        best_val_loss = val_loss
+        torch.save(model.state_dict(), 'best_model.pth')
+        epochs_without_improvement = 0
+    else:
+        epochs_without_improvement += 1
+
+    if epochs_without_improvement >= patience:
+        print(f'Early stopping triggered after {epoch+1} epochs.')
+        break
+	\end{lstlisting}
+\end{LTR}         
+        
+\subsubsection{نتایج}
+پس از آموزش مدل با 
+configuration 
+که در بالا مطرح شد نتایج بدست آمده از تابع هزینه و متریک 
+Accuracy
+در 
+\autoref{fig:Q2 result basic}
+نشان داده شده است. در این آموزش، با گذشتن 258 
+Epoch
+بهبودی در میزان تابع هزینه دیتاست ارزیابی مشاهده نشده است و فرایند آموزش
+early stop 
+شده است. همانطور که مشخص است میزان accuracy این مجموعه داده آموزش و ارزیابی در طی فرایند آموزش به حدود یک نزدیک شده است و همانطور که از این نمودار مشخص است، بهینه سازی این مدل در 2 نقطه به 
+local extremum 
+رسیده است و برای حدود چند 
+Epoch
+بهبودی در نتایج این متریک مشاهده نمی‌شود. 
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\linewidth]{"img/Q2/result basic"}
+\caption{نتایج آموزش مدل MLP}
+\label{fig:Q2 result basic}
+\end{figure}
+
+به منظور تحلیل بهتر نتایح بدست آمده از آموزش این مدل متریک‌ها و معیارهای دیگری علاوه بر 
+Accuracy 
+مورد نیاز است زیرا که متریک 
+Accuracy 
+با در نظر گرفتن کلاس‌های نرمالی که به درستی تشخیص داده شده‌اند در فرمول خود، باعث کاهش اثر نمونه‌هایی که به اشتباه تشخیص داده‌شده‌اند می‌شود بنابراین متریک‌های دیگری مورد نیاز است که در ادامه نتایج مدل را برحسب 
+Recall و Precision و F-1 Score
+و ماتریس درهم‌ریختگی روی مجموعه داده آزمون بررسی می‌شود.
+
+نتایج آموزش مدل روی داده آزمون در 
+\autoref{fig:Q2 cm basic}
+و
+\autoref{Q2 basic result}
+نشان دهنده عملکرد بسیار خوب این مدل می‌باشد که تمام نمونه‌ها را به درستی تشخیص داده است.
+ 
+\begin{LTR}
+\label{Q2 basic result}
+\begin{verbatim}
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00       359
+           1       1.00      1.00      1.00       375
+           2       1.00      1.00      1.00       348
+           3       1.00      1.00      1.00       358
+
+    accuracy                           1.00      1440
+   macro avg       1.00      1.00      1.00      1440
+weighted avg       1.00      1.00      1.00      1440
+\end{verbatim}
+\end{LTR}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\linewidth]{"img/Q2/cm basic"}
+\caption{Confiusion Matrix}
+\label{fig:Q2 cm basic}
+\end{figure}
+
+\subsection{بخش سوم}
+
+در ادامه با استفاده از کد زیر 2 مدل جدید با 
+configuratinهای 
+جدید ایجاد می‌کنیم که در مدل اول تنها تابع هزینه به 
+\texttt{L1Loss}
+تبدیل شده و در مدل دوم علاوه بر آن بهینه‌ساز به الگوریتم 
+\texttt{SGD}
+تغییر یافته است.
+\begin{LTR}  
+	\begin{lstlisting}       
+# Model 1
+model = MLP(input_dim=X_train.shape[1], output_dim=len(set(y)))
+criterion = nn.L1Loss()
+optimizer = optim.Adam(model.parameters(), lr=0.1)
+scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=15, verbose=True)
+
+# model 2
+model = MLP(input_dim=X_train.shape[1], output_dim=len(set(y)))
+criterion = nn.L1Loss()
+optimizer = optim.SGD(model.parameters(), lr=0.1)
+scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=15, verbose=True)
+	\end{lstlisting}
+\end{LTR}         
+        
+\subsubsection{نتایج}
+
+ با توجه به نمودارهای موجود در 
+\autoref{fig:Q2 metric-of-opt-loss} و \autoref{fig:Q2 loss-of-opt-loss}
+مشخص می‌شود که تغییر تابع هزینه به تنهایی می‌تواند به شدت روی عملکرد مدل تاثیر بگذارد؛ این مسئله با بررسی نمودارهای نارنجی که مربوط به مدل با تابع هزینه
+\texttt{L1Loss} و 
+بهینه ساز
+\texttt{Adam}
+است مشخص می‌شود. در آموزش این مدل مشخص می‌شود که یک نقطه بهینه محلی پیدا شده است که مدل نتوانسته است از آن خارج شود و مقدار 
+Accuracy
+برابر 75‎\% شده است که نشان دهنده افت شدید این متریک نسبت به شرایطی است که تابع هزینه از نوع
+\texttt{CrossEntropyLoss}
+است.
+
+در ادامه با تغییر بهینه‌ساز در فرایند آموزش به 
+\texttt{SGD}
+نشان داده می‌شود که دوباره مدل به نتیجه مطلوب می‌رسد اما باید این نکته را در نظر داشته که بابت رسیدن به این نتیجه نیاز است که 500 
+Epoch
+طی شود که خیلی بیشتر از تعداد 
+Epoch
+طی شده در فرایند آموزش نشان داده‌شده در 
+\autoref{section2}
+ می‌باشد. نکته حائز اهمیت در نمودارهای ‎
+ \autoref{fig:Q2 loss-of-opt-loss}
+ این است که آموزشی که با نمودار آبی نشان داده شده است همچنان می‌تواند آموزش داده شود و داری شیب نزولی هم در نمودار آموزش و هم در نمودار ارزیابی است.
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\linewidth]{"img/Q2/loss of opt loss"}
+\caption{تابع هزینه آموزش مدل MLP با بهینه ساز و تابع هزینه جدید}
+\label{fig:Q2 loss-of-opt-loss}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\linewidth]{"img/Q2/metric of opt loss"}
+\caption{متریک‌های آموزش مدل MLP با بهینه ساز و تابع هزینه جدید}
+\label{fig:Q2 metric-of-opt-loss}
+\end{figure}
+
+در ادامه به منظور مقایسه عملکرد مدلی که تابع هزینه و الگوریتم بهینه‌سازی آن عوض شده است با مدل قبلی، ماتریس درهم‌ریختگی را روی مجموعه داده تست محاسبه می‌کنیم که در ‎
+\autoref{fig:Q2 cm-of-opt-loss}
+نمایش آن قابل ملاحظه است. همانطور که از این ماتریس مشخص است، مدلی که تابع هزینه و بهینه ساز آن تغییر کرده است در 4 نمونه از کلاس سالم را به اشتباه متعلق به کلاس 2 تشخیص داده است و 1 نمونه از کلاس 3 را متعلق به کلاس 1 تشخیص داده است که در مجموع 5 خطا دارد؛ این درحالی است که مدل بدست آمده در
+\autoref{section2}
+هیچ خطایی روی محموعه داده آزمون نداشته است، بنابراین تغییر تابع هزینه و یا بهینه ساز می‌تواند موجب کاهش عملکرد مدل در این مسئله بشود.  
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\linewidth]{"img/Q2/cm of opt loss"}
+\caption{ماتریس درهم‌ریختگی روی داده‌های آزمون}
+\label{fig:Q2 cm-of-opt-loss}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\bibliographystyle{plain}
+\bibliography{references}
 \end{document}
 
