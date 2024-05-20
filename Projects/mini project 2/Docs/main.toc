@@ -2,17 +2,20 @@
 \contentsline {subsection}{\numberline {1.1}بخش اول}{5}{subsection.1.1}%
 \contentsline {subsection}{\numberline {1.2}بخش دوم}{6}{subsection.1.2}%
 \contentsline {subsection}{\numberline {1.3}بخش سوم}{6}{subsection.1.3}%
-\contentsline {subsubsection}{\numberline {1.3.1}نتایج MLP با تابع فعال‌ساز ReLU}{12}{subsubsection.1.3.1}%
-\contentsline {subsubsection}{\numberline {1.3.2}نتایج MLP با تابع فعال‌ساز ELU}{13}{subsubsection.1.3.2}%
-\contentsline {subsubsection}{\numberline {1.3.3}نتایج مدل بر مبنای mcculloch-pitts نرون}{15}{subsubsection.1.3.3}%
-\contentsline {section}{\numberline {2}سوال 2}{17}{section.2}%
-\contentsline {subsection}{\numberline {2.1}بخش اول}{17}{subsection.2.1}%
-\contentsline {subsection}{\numberline {2.2}پیش‌پردازش}{18}{subsection.2.2}%
-\contentsline {subsection}{\numberline {2.3}بخش دوم}{20}{subsection.2.3}%
+\contentsline {subsubsection}{\numberline {1.3.1}نتایج MLP با تابع فعال‌ساز ReLU}{11}{subsubsection.1.3.1}%
+\contentsline {subsubsection}{\numberline {1.3.2}نتایج MLP با تابع فعال‌ساز ELU}{11}{subsubsection.1.3.2}%
+\contentsline {subsubsection}{\numberline {1.3.3}نتایج مدل بر مبنای mcculloch-pitts نرون}{13}{subsubsection.1.3.3}%
+\contentsline {section}{\numberline {2}سوال 2}{15}{section.2}%
+\contentsline {subsection}{\numberline {2.1}بخش اول}{15}{subsection.2.1}%
+\contentsline {subsubsection}{\numberline {2.1.1}پیش‌پردازش}{15}{subsubsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.2}بخش دوم}{18}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}نتایج}{21}{subsubsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.3}بخش سوم}{22}{subsection.2.3}%
 \contentsline {subsubsection}{\numberline {2.3.1}نتایج}{23}{subsubsection.2.3.1}%
-\contentsline {subsection}{\numberline {2.4}بخش سوم}{25}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.4}بخش چهارم}{24}{subsection.2.4}%
 \contentsline {subsubsection}{\numberline {2.4.1}نتایج}{25}{subsubsection.2.4.1}%
-\contentsline {section}{\numberline {3}سوال 3}{27}{section.3}%
-\contentsline {subsection}{\numberline {3.1}بخش اول}{29}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}بخش دوم}{30}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3}بخش سوم}{37}{subsection.3.3}%
+\contentsline {section}{\numberline {3}سوال 3}{26}{section.3}%
+\contentsline {subsection}{\numberline {3.1}بخش اول}{28}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}بخش دوم}{29}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}بخش سوم}{36}{subsection.3.3}%
+\contentsline {section}{\numberline {4}سوال 4}{39}{section.4}%

@@ -5,7 +5,9 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{listings}
 \usepackage[hidelinks]{hyperref}
-\usepackage{subfigure}
+%\usepackage{subfigure}
+\usepackage{subcaption}
+
 \usepackage{amsmath}
 \usepackage{subcaption}
 \usepackage{float}
@@ -579,7 +581,7 @@ $$l_1'+l_2'+l_3$$
     \item \textbf{کلاس معیوب 3 \lr{(IR007\_1)}:} این عیوب در قسمت داخلی بلبرینگ رخ می‌دهد و باعث ایجاد ناهنجاری در عملکرد کلی بلبرینگ می‌شود.
 \end{itemize}
 
-\subsection{پیش‌پردازش}
+\subsubsection{پیش‌پردازش}
 
 کد زیر یک چنجره به طول 
 \texttt{len\_data}
@@ -966,6 +968,91 @@ Epoch
 \label{fig:Q2 cm-of-opt-loss}
 \end{figure}
 
+\subsection{بخش چهارم}
+
+K-fold Cross-validation
+یک روش آماری قوی برای ارزیابی عملکرد و تعمیم‌پذیری یک مدل یادگیری ماشین است. در این تکنیک، مجموعه داده به \(k\) بخش مساوی تقسیم می‌شود. مدل بر روی \(k-1\) بخش آموزش داده می‌شود و بر روی بخش باقی‌مانده ارزیابی می‌شود. این فرایند \(k\) بار تکرار می‌شود، هر بار با استفاده از یک بخش متفاوت برای تست. سپس نتایج میانگین گرفته می‌شود تا یک اندازه‌گیری جامع از عملکرد مدل ارائه شود. این روش تضمین می‌کند که هر  داده هم برای آموزش و هم برای ارزیابی استفاده می‌شود و باعث کاهش bias و واریانس در مقایسه با تقسیمات ساده آموزش و ارزیابی می‌شود. K-fold Cross-validation به‌ویژه در مجموعه داده‌های کوچک که حفظ حداکثر داده‌ها برای آموزش اهمیت دارد، مفید است.
+
+Stratified K-Fold Cross-Validation
+ یک نوع تغییر یافته از K-fold Cross-validation است که هدف آن حفظ توزیع متغیر هدف در تمام بخش‌هاست. در مسائل دسته‌بندی، این روش تضمین می‌کند که هر بخش تقریباً همان نسبت کلاس‌ها را دارد که در کل مجموعه داده وجود دارد. این طبقه‌بندی برای مجموعه داده‌های imbalance که برخی کلاس‌ها ممکن است تعداد کمی داشته باشند، بسیار مهم است. با حفظ توزیع کلاس‌ها، Stratified K-Fold Cross-Validation یک تخمین دقیق‌تر از عملکرد مدل، به‌ویژه برای کلاس‌های اقلیت ارائه می‌دهد. این روش به جلوگیری از نتایج گمراه‌کننده کمک می‌کند و آن را به انتخابی بهتر برای آموزش مدل‌های یادگیری ماشین تبدیل می‌کند.
+
+
+
+با استفاده از کد زیر می‌‌توانیم مجموعه داده را به 
+k - fold
+تقسیم کنیم. نکته حائز اهمیت این است که مجموعه داده 
+test
+به دلیل اینکه قابلیت مقایسه با آموزش‌های قبلی حفظ شود در تمام آموزش‌ها در طی حل سوال 2 یکسان بوده است.
+
+\begin{LTR}  
+	\begin{lstlisting}       
+kf = KFold(n_splits=5)
+kf_results = []
+
+for fold, (train_index, val_index) in enumerate(kf.split(X_tensor)):
+    print(f"Fold {fold+1}")
+    X_train, X_val = X_tensor[train_index], X_tensor[val_index]
+    y_train, y_val = y_tensor[train_index], y_tensor[val_index]
+    
+    train_data = torch.utils.data.TensorDataset(torch.tensor(X_train, dtype=torch.float32), torch.tensor(y_train, dtype=torch.float))
+    val_data = torch.utils.data.TensorDataset(torch.tensor(X_val, dtype=torch.float32), torch.tensor(y_val, dtype=torch.float))
+    
+    train_loader = torch.utils.data.DataLoader(train_data, batch_size=512, shuffle=True)
+    val_loader = torch.utils.data.DataLoader(val_data, batch_size=2000, shuffle=False)
+    
+    model = MLP(input_dim=X_train.shape[1], output_dim=len(set(y))).to(device)
+    optimizer = optim.Adam(model.parameters(), lr=0.001)
+    scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=15, verbose=True)
+	\end{lstlisting}
+\end{LTR}    
+
+\subsubsection{نتایج}
+در 
+\autoref{fig:five_images}
+نمودارهای ماتریس درهم‌ریختگی مشخص شده است، با استفاده از این نمودارها می‌توان متریک‌های 
+Recall و Precision
+را محاسبه کرد. با توجه به اینکه این نمودارها روی مجموعه داده آزمون حساب شده است، و این مجموعه داده در طول آموزش‌ها یکسان بوده است، می‌توان نتیجه گرفت که در قسمت‌های قبل نتایج صورت تصادفی کسب نشده‌اند و مدل به درستی روی دیتاست آموزش دیده است. اگر پیچیدگی دیتاست بیشتر بود با انجام اینکار ممکن بود نتایج در یک 
+fold
+به خصوص بهتر از بقیه آموزش‌ها شود.
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.33\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/Q2/f1.png}
+        \label{fig:image1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/Q2/f2.png}
+        \label{fig:image2}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.33\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/Q2/f3.png}
+        \label{fig:image3}
+    \end{subfigure}
+    
+    \vspace{0.5cm}
+    
+    \begin{subfigure}[b]{0.33\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/Q2/f4.png}
+        \label{fig:image4}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.33\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/Q2/f5.png}
+        \label{fig:image5}
+    \end{subfigure}
+    
+    \caption{5 fold cross-validation}
+    \label{fig:five_images}
+\end{figure}
+
+
 \section{سوال 3}
 
 در ادامه حل این سوال مجموعه داده دارو درنظر گرفته شده است و الگوریتم‌ها به روی این مجموعه داده اجرا شده‌اند.
@@ -1056,7 +1143,7 @@ imbalance
 بودن این دیتاست می‌توان از روش 
 stratify
 به منظور حفظ توزیع داده‌ها و یا روش
-K-Fold-cross-entropy
+K-Fold-cross-validation
 استفاده کرد تا بهترین نتیجه ممکن را بدست آورد و از عملکرد مدل مطمئن شد.
 
 در ادامه با استفاده از کد زیر و 
@@ -1156,7 +1243,7 @@ weighted avg       1.00      1.00      1.00        60
 حال با استفاده از 
 \texttt{GridSearchCV}
 هایپرپارامتر‌های متفاوت را با استفاده از متد
-5-fold-corss-entropy
+5-fold-corss-validation
 بررسی می‌کنیم تا بهترین ساختار مدل را پیدا کنیم. در این جستجو مقادیر
 \texttt{max\_depth}، \texttt{min\_samples\_split} و \texttt{min\_samples\_leaf}
 را در یک بازه متناسب با دیتاستی که در اختیار داریم تغییر می‌دهیم. کد زیر به منظور آموزش مدل‌های مختلف استفاده شده است و در انتها بهترین هایپرپارامترها را خروجی می‌دهد.
@@ -1331,7 +1418,7 @@ RandomForest
 
 
 \begin{LTR}
-\begin{verbatim}
+\begin{lstlisting}[language=Python, caption=Random Forest Training]
 # Define the parameter grid for the Random Forest
 param_grid_rf = {
     'n_estimators': [100, 200, 300],
@@ -1351,7 +1438,7 @@ grid_search_rf = GridSearchCV(estimator=rf_clf, param_grid=param_grid_rf, cv=5, 
 # Fit GridSearchCV
 grid_search_rf.fit(X_train, y_train)
 
-\end{verbatim}
+\end{lstlisting}
 \end{LTR}
 
 نتایج بدست آمده از مدل فوق به شرح زیر می‌باشد که تمام متریک‌ها برابر 1 شده‌اند و از روی ماتریس درهم‌ریختگی 
@@ -1405,6 +1492,140 @@ weighted avg       1.00      1.00      1.00        60
 \end{figure}
 
 
+\section{سوال 4}
+
+روش Bayse با تکیه بر توضیح احتمالاتی مسئله و با فرض اینکه رگرسورها از یکدیگر مستقل هستند، از قانون
+Bayse 
+استفاده می‌کند تا یک مدل طبقه‌بندی را ایجاد کند. با توجه به اینکه الگوریتم به توزیع احتمالاتی وابسته است نرمال کردن دیتاست تاثیری در نتیجه نخواهد داشت بنابراین پیش‌پردازش خاصی لازم نیست. همانطور که در ‎
+\autoref{tab:Q4 data}
+مشخص است این دیتاست 13 ویژگی را اندازه‌گیری کرده است تا به وسیله آنها پیشبینی انجام شود.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{ccccccccccccccc}
+\toprule
+ & Age & Sex & CP & Trestbps & Chol & FBS & Restecg & Thalach & Exang & Oldpeak & Slope & CA & Thal & Target \\
+\midrule
+0 & 52 & 1 & 0 & 125 & 212 & 0 & 1 & 168 & 0 & 1.0 & 2 & 2 & 3 & 0 \\
+1 & 53 & 1 & 0 & 140 & 203 & 1 & 0 & 155 & 1 & 3.1 & 0 & 0 & 3 & 0 \\
+2 & 70 & 1 & 0 & 145 & 174 & 0 & 1 & 125 & 1 & 2.6 & 0 & 0 & 3 & 0 \\
+3 & 61 & 1 & 0 & 148 & 203 & 0 & 1 & 161 & 0 & 0.0 & 2 & 1 & 3 & 0 \\
+4 & 62 & 0 & 0 & 138 & 294 & 1 & 1 & 106 & 0 & 1.9 & 1 & 3 & 2 & 0 \\
+\bottomrule
+\end{tabular}
+\caption{Sample Data}
+\label{tab:sample_data}
+\end{table}
+
+در ادامه برای آموزش مدل مبتنی بر
+Bayse
+مجموعه داده موجود با استفاده از کد زیر به دو قسمت آموزش و ارزیابی تقسیم می‌شود و پس از آن مدل به روی دیتاست مذکور تنظیم می‌شود.
+
+\begin{LTR}
+\begin{lstlisting}[language=Python, caption=best alpha]
+# Split data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=53)
+
+# Initialize and train the Gaussian Naive Bayes classifier
+model = GaussianNB()X_train, y_train)
+
+# Train model
+model.fit(X_train, y_train)
+\end{lstlisting}
+\end{LTR}
+
+نتایج بدست آمده از مدل فوق روی مجموعه داده ارزیابی به شرح زیر می‌باشد. با توجه به متریک 
+Recall
+می‌توانیم به این نتیجه برسیم که مدل در پیدا کردن نمونه‌های کلاس 0، نسبت به نمونه‌های کلاس 1 ضعیف‌تر عمل کرده است و با اینکه تعداد نمونه‌ها در هر دو کلاس یکسان بوده اما دقت مدل در پیدا کردن کلاس 0، 
+10\%
+ضعیف‌تر بوده اما از سوی دیگر اگر مدل درمورد یک نمونه از کلاس 0 پیشبینی کرده، احتمال اینکه این پیشبینی درست باشد بیشتر است و این مسئله از متریک 
+Precision
+قابل نتیجه می‌باشد. به صورت کلی دقت مدل در پیدا کردن و میزان درست بودن پیشبینی‌هایش از رابطه‌ای بین 
+Precision و Recall 
+نتیجه می‌شود که به آن 
+f-1 Score
+می‌گویند. 
+f-1 Score 
+برای هردو کلاس بالای 
+80\% 
+است و اختلاف کمی دارد که نشان می‌دهد مدل علاوه‌براینکه از دقت مناسبی برخوردار است، به کلاس خاصی متمایل نشده است. این نتایج در ماتریس درهم‌ریختگی موجود در 
+\autoref{fig: Q4 cm}
+قابل ملاحضه است.
+\begin{LTR}
+\begin{verbatim}
+Classification Report:
+               precision    recall  f1-score   support
+
+     Class 0       0.86      0.77      0.81       102
+     Class 1       0.80      0.87      0.83       103
+
+    accuracy                           0.82       205
+   macro avg       0.83      0.82      0.82       205
+weighted avg       0.83      0.82      0.82       205
+\end{verbatim}
+\end{LTR}
+
+\begin{figure}[H] 
+	\centering
+	\subfigure[]{
+		\includegraphics[width=0.4\linewidth]{img/Q4/cm.png}
+		}
+	\subfigure[]{
+		\includegraphics[width=0.4\linewidth]{img/Q4/cmn.png}
+		}
+	\caption{Confusion Matrix}
+	\label{fig: Q4 cm}
+\end{figure}
+
+در کتابخانه
+ Scikit-learn،
+ اصطلاحات 
+ micro
+  و 
+  macro
+   به روش‌های مختلف میانگین‌گیری معیارها مانند
+   Recall، Precision و  f-1 Score
+   در مسائل طبقه‌بندی چاشاره دارند. روش micro متریک‌ها را به صورت کلی در شرایطی هر پیش‌بینی ارزش یکسانی دارد محاسبه می‌کند، به عبارت دیگر این روش تمام 
+   true positives، true negative، false negatives و false positives 
+   را برای محاسبه متریک موردنظر حساب می‌کند
+   که می‌تواند تحت تأثیر 
+   imbalance
+    بودن کلاس‌ها قرار گیرد اما عملکرد کلی جامعی را ارائه می‌دهد. در مقابل، میانگین‌گیری
+    macro
+     معیارها را برای هر کلاس به طور مستقل محاسبه و سپس میانگین می‌گیرد، و به هر کلاس بدون توجه به فراوانی آن وزن مساوی می‌دهد، که آن را نسبت به
+     imbalance
+      کلاس‌ها کمتر حساس می‌کند. انتخاب بین میانگین‌گیری micro و macro بستگی به این دارد که آیا می‌خواهید بر عملکرد کلی تأکید کنید یا عملکرد متعادل در تمام کلاس‌ها مدنظر می‌باشد.
+
+در انتها به ارزیابی مدل روی 5 نمونه از داده‌ها می‌پردازیم. با استفاده از کد زیر 5 نمونه به صورت تصادفی از مجموعه داده استخراج می‌شود و سپس مدل روی این داده پیشبینی انجام می‌دهد و در گام آخر پیشبینی به همراه کلاس واقعی نمایش داده می‌شود که این نتایج در 
+\autoref{tab:Q4 t}
+قابل مشاهده می‌باشد. این مدل تنها در یک مورد از 5 مورد اشتباه کرده است که کلاس را 1 تشخیص داده اما این درحالی است که کلاس واقعی 0 بوده است.
+
+
+\begin{LTR}
+\begin{verbatim}
+test_data = data.sample(n=5, random_state=53)
+pred = model.predict(test_data.drop("target", axis='columns'))
+test_data['predictions'] = pred
+test_data.head()
+\end{verbatim}
+\end{LTR}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{cccccccccccccccc}
+\toprule
+ & Age & Sex & CP & Trestbps & Chol & FBS & Restecg & Thalach & Exang & Oldpeak & Slope & CA & Thal & Target & Predictions \\
+\midrule
+420 & 57 & 0 & 0 & 128 & 303 & 0 & 0 & 159 & 0 & 0.0 & 2 & 1 & 2 & 1 & 1 \\
+706 & 57 & 1 & 2 & 128 & 229 & 0 & 0 & 150 & 0 & 0.4 & 1 & 1 & 3 & 0 & 1 \\
+673 & 54 & 1 & 2 & 120 & 258 & 0 & 0 & 147 & 0 & 0.4 & 1 & 0 & 3 & 1 & 1 \\
+246 & 54 & 1 & 1 & 192 & 283 & 0 & 0 & 195 & 0 & 0.0 & 2 & 1 & 3 & 0 & 0 \\
+187 & 56 & 1 & 0 & 125 & 249 & 1 & 0 & 144 & 1 & 1.2 & 1 & 1 & 2 & 0 & 0 \\
+\bottomrule
+\end{tabular}
+\caption{Test Data}
+\label{tab:Q4 t}
+\end{table}
 
 
 

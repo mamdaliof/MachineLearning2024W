@@ -1,26 +1,16 @@
-\contentsline {figure}{\numberline {1}{\ignorespaces مجموعه داده تولید شده}}{8}{figure.caption.5}%
-\contentsline {subfigure}{\numberline {(آ)}{\ignorespaces {}}}{8}{figure.caption.5}%
-\contentsline {subfigure}{\numberline {(ب)}{\ignorespaces {}}}{8}{figure.caption.5}%
-\contentsline {figure}{\numberline {2}{\ignorespaces نمودارهای متریک و تابع هزینه حین آموزش}}{12}{figure.caption.6}%
-\contentsline {figure}{\numberline {3}{\ignorespaces نتایح مدل MLP و مرز تصمیم مربوط به مدل}}{13}{figure.caption.7}%
-\contentsline {figure}{\numberline {4}{\ignorespaces Confusion Matrix}}{13}{figure.caption.8}%
-\contentsline {figure}{\numberline {5}{\ignorespaces نمودارهای متریک و تابع هزینه حین آموزش}}{14}{figure.caption.9}%
-\contentsline {figure}{\numberline {6}{\ignorespaces نتایح مدل MLP و مرز تصمیم مربوط به مدل}}{15}{figure.caption.10}%
-\contentsline {figure}{\numberline {7}{\ignorespaces Confusion Matrix}}{15}{figure.caption.11}%
-\contentsline {figure}{\numberline {8}{\ignorespaces mcculloch-pitts و مرز تصمیم مربوط به مدل}}{17}{figure.caption.12}%
-\contentsline {figure}{\numberline {9}{\ignorespaces Confusion Matrix}}{17}{figure.caption.13}%
-\contentsline {figure}{\numberline {10}{\ignorespaces نتایج آموزش مدل MLP}}{24}{figure.caption.14}%
-\contentsline {figure}{\numberline {11}{\ignorespaces Confiusion Matrix}}{25}{figure.caption.15}%
-\contentsline {figure}{\numberline {12}{\ignorespaces تابع هزینه آموزش مدل MLP با بهینه ساز و تابع هزینه جدید}}{26}{figure.caption.16}%
-\contentsline {figure}{\numberline {13}{\ignorespaces متریک‌های آموزش مدل MLP با بهینه ساز و تابع هزینه جدید}}{26}{figure.caption.17}%
-\contentsline {figure}{\numberline {14}{\ignorespaces ماتریس درهم‌ریختگی روی داده‌های آزمون}}{27}{figure.caption.18}%
-\contentsline {figure}{\numberline {15}{\ignorespaces نمودار توزیع داده}}{28}{figure.caption.19}%
-\contentsline {figure}{\numberline {16}{\ignorespaces \relax }}{30}{figure.caption.21}%
-\contentsline {figure}{\numberline {17}{\ignorespaces Sex over Drug}}{31}{figure.caption.22}%
-\contentsline {figure}{\numberline {18}{\ignorespaces Confusion Matrix}}{32}{figure.caption.23}%
-\contentsline {figure}{\numberline {19}{\ignorespaces Hyper-parameters Graph}}{34}{figure.caption.24}%
-\contentsline {figure}{\numberline {20}{\ignorespaces Best Tree}}{35}{figure.caption.25}%
-\contentsline {figure}{\numberline {21}{\ignorespaces Confusion Matrix}}{36}{figure.caption.26}%
-\contentsline {figure}{\numberline {22}{\ignorespaces \relax }}{37}{figure.caption.27}%
-\contentsline {figure}{\numberline {23}{\ignorespaces نحوه عملکرد و آموزش مدل AdaBoost \cite {towardsdatascience2020ensemblelearning}}}{38}{figure.caption.28}%
-\contentsline {figure}{\numberline {24}{\ignorespaces Confusion Matrix}}{40}{figure.caption.29}%
+\contentsline {figure}{\numberline {2}{\ignorespaces نمودارهای متریک و تابع هزینه حین آموزش}}{11}{figure.caption.6}%
+\contentsline {figure}{\numberline {5}{\ignorespaces نمودارهای متریک و تابع هزینه حین آموزش}}{12}{figure.caption.9}%
+\contentsline {figure}{\numberline {8}{\ignorespaces mcculloch-pitts و مرز تصمیم مربوط به مدل}}{14}{figure.caption.12}%
+\contentsline {figure}{\numberline {10}{\ignorespaces نتایج آموزش مدل MLP}}{21}{figure.caption.14}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Confiusion Matrix}}{22}{figure.caption.15}%
+\contentsline {figure}{\numberline {12}{\ignorespaces تابع هزینه آموزش مدل MLP با بهینه ساز و تابع هزینه جدید}}{23}{figure.caption.16}%
+\contentsline {figure}{\numberline {13}{\ignorespaces متریک‌های آموزش مدل MLP با بهینه ساز و تابع هزینه جدید}}{23}{figure.caption.17}%
+\contentsline {figure}{\numberline {14}{\ignorespaces ماتریس درهم‌ریختگی روی داده‌های آزمون}}{24}{figure.caption.18}%
+\contentsline {figure}{\numberline {15}{\ignorespaces 5 fold cross-validation}}{26}{figure.caption.19}%
+\contentsline {figure}{\numberline {16}{\ignorespaces نمودار توزیع داده}}{27}{figure.caption.20}%
+\contentsline {figure}{\numberline {17}{\ignorespaces \relax }}{29}{figure.caption.22}%
+\contentsline {figure}{\numberline {18}{\ignorespaces Sex over Drug}}{30}{figure.caption.23}%
+\contentsline {figure}{\numberline {20}{\ignorespaces Hyper-parameters Graph}}{33}{figure.caption.25}%
+\contentsline {figure}{\numberline {21}{\ignorespaces Best Tree}}{34}{figure.caption.26}%
+\contentsline {figure}{\numberline {23}{\ignorespaces \relax }}{36}{figure.caption.28}%
+\contentsline {figure}{\numberline {24}{\ignorespaces نحوه عملکرد و آموزش مدل AdaBoost \cite {towardsdatascience2020ensemblelearning}}}{37}{figure.caption.29}%
