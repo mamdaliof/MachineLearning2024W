@@ -14,8 +14,8 @@
 \contentsline {subsubsection}{\numberline {2.3.1}نتایج}{23}{subsubsection.2.3.1}%
 \contentsline {subsection}{\numberline {2.4}بخش چهارم}{24}{subsection.2.4}%
 \contentsline {subsubsection}{\numberline {2.4.1}نتایج}{25}{subsubsection.2.4.1}%
-\contentsline {section}{\numberline {3}سوال 3}{26}{section.3}%
-\contentsline {subsection}{\numberline {3.1}بخش اول}{28}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}بخش دوم}{29}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3}بخش سوم}{36}{subsection.3.3}%
-\contentsline {section}{\numberline {4}سوال 4}{39}{section.4}%
+\contentsline {section}{\numberline {3}سوال 3}{27}{section.3}%
+\contentsline {subsection}{\numberline {3.1}بخش اول}{29}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}بخش دوم}{30}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}بخش سوم}{37}{subsection.3.3}%
+\contentsline {section}{\numberline {4}سوال 4}{40}{section.4}%

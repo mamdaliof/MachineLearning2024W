@@ -6,11 +6,12 @@
 \contentsline {figure}{\numberline {12}{\ignorespaces تابع هزینه آموزش مدل MLP با بهینه ساز و تابع هزینه جدید}}{23}{figure.caption.16}%
 \contentsline {figure}{\numberline {13}{\ignorespaces متریک‌های آموزش مدل MLP با بهینه ساز و تابع هزینه جدید}}{23}{figure.caption.17}%
 \contentsline {figure}{\numberline {14}{\ignorespaces ماتریس درهم‌ریختگی روی داده‌های آزمون}}{24}{figure.caption.18}%
-\contentsline {figure}{\numberline {15}{\ignorespaces 5 fold cross-validation}}{26}{figure.caption.19}%
-\contentsline {figure}{\numberline {16}{\ignorespaces نمودار توزیع داده}}{27}{figure.caption.20}%
-\contentsline {figure}{\numberline {17}{\ignorespaces \relax }}{29}{figure.caption.22}%
-\contentsline {figure}{\numberline {18}{\ignorespaces Sex over Drug}}{30}{figure.caption.23}%
-\contentsline {figure}{\numberline {20}{\ignorespaces Hyper-parameters Graph}}{33}{figure.caption.25}%
-\contentsline {figure}{\numberline {21}{\ignorespaces Best Tree}}{34}{figure.caption.26}%
-\contentsline {figure}{\numberline {23}{\ignorespaces \relax }}{36}{figure.caption.28}%
-\contentsline {figure}{\numberline {24}{\ignorespaces نحوه عملکرد و آموزش مدل AdaBoost \cite {towardsdatascience2020ensemblelearning}}}{37}{figure.caption.29}%
+\contentsline {figure}{\numberline {15}{\ignorespaces 5 fold cross-validation confusion matrix}}{26}{figure.caption.19}%
+\contentsline {figure}{\numberline {16}{\ignorespaces 5 fold cross-validation metrics}}{27}{figure.caption.20}%
+\contentsline {figure}{\numberline {17}{\ignorespaces نمودار توزیع داده}}{28}{figure.caption.21}%
+\contentsline {figure}{\numberline {18}{\ignorespaces \relax }}{30}{figure.caption.23}%
+\contentsline {figure}{\numberline {19}{\ignorespaces Sex over Drug}}{31}{figure.caption.24}%
+\contentsline {figure}{\numberline {21}{\ignorespaces Hyper-parameters Graph}}{34}{figure.caption.26}%
+\contentsline {figure}{\numberline {22}{\ignorespaces Best Tree}}{35}{figure.caption.27}%
+\contentsline {figure}{\numberline {24}{\ignorespaces \relax }}{37}{figure.caption.29}%
+\contentsline {figure}{\numberline {25}{\ignorespaces نحوه عملکرد و آموزش مدل AdaBoost \cite {towardsdatascience2020ensemblelearning}}}{38}{figure.caption.30}%

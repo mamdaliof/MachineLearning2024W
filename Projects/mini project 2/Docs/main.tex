@@ -1048,10 +1048,53 @@ fold
         \label{fig:image5}
     \end{subfigure}
     
-    \caption{5 fold cross-validation}
+    \caption{5 fold cross-validation confusion matrix}
     \label{fig:five_images}
 \end{figure}
 
+در 
+\autoref{fig:five_images_m}
+ تصاویر مربوط تابع هزینه و متریک‌ 
+Accuracy 
+طی فرایند آموزش نمایش داده نشان داده شده است که طی fold های متفاوت تفاوت فاحشی با یکدیگر ندارند و با توجه به اینکه حلقه آموزش شرایط
+early stop
+را بررسی می‌کرده، همه آموزش‌ها در حدود 
+epoch
+260 
+به اتمام رسیده است.
+
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/Q2/trainlf.png}
+        \label{fig:image1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/Q2/vallf.png}
+        \label{fig:image3}
+    \end{subfigure}
+    
+    \vspace{0.5cm}
+    
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/Q2/trainmf.png}
+        \label{fig:image4}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/Q2/valmf.png}
+        \label{fig:image5}
+    \end{subfigure}
+    
+    \caption{5 fold cross-validation metrics}
+    \label{fig:five_images_m}
+\end{figure}
 
 \section{سوال 3}
 
