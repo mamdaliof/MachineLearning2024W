@@ -1,14 +1,19 @@
 \contentsline {section}{\numberline {1}سوال 2}{5}{section.1}%
 \contentsline {subsection}{\numberline {1.1}مشکل مورد بررسی}{5}{subsection.1.1}%
 \contentsline {subsection}{\numberline {1.2}روش پیشنهادی}{5}{subsection.1.2}%
-\contentsline {subsection}{\numberline {1.3}ارزیابی عملکرد}{5}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.3}ارزیابی عملکرد}{6}{subsection.1.3}%
 \contentsline {subsection}{\numberline {1.4}مزایا و معایب}{6}{subsection.1.4}%
-\contentsline {subsection}{\numberline {1.5}مشکل مورد بررسی}{6}{subsection.1.5}%
-\contentsline {subsection}{\numberline {1.6}روش پیشنهادی}{7}{subsection.1.6}%
-\contentsline {subsection}{\numberline {1.7}ارزیابی عملکرد}{7}{subsection.1.7}%
-\contentsline {subsection}{\numberline {1.8}مزایا و معایب}{8}{subsection.1.8}%
-\contentsline {section}{\numberline {2}سوال 3}{8}{section.2}%
-\contentsline {subsection}{\numberline {2.1}بخش اول}{10}{subsection.2.1}%
-\contentsline {subsection}{\numberline {2.2}بخش دوم}{11}{subsection.2.2}%
-\contentsline {subsection}{\numberline {2.3}بخش سوم}{18}{subsection.2.3}%
-\contentsline {section}{\numberline {3}سوال 4}{21}{section.3}%
+\contentsline {section}{\numberline {2}شبیه‌سازی}{7}{section.2}%
+\contentsline {section}{\numberline {3}سوال 3}{13}{section.3}%
+\contentsline {subsection}{\numberline {3.1}بخش اول}{13}{subsection.3.1}%
+\contentsline {subsubsection}{\numberline {3.1.1} چالش‌ها}{13}{subsubsection.3.1.1}%
+\contentsline {subsubsection}{\numberline {3.1.2}روش‌های مقابله با این چالش‌ها}{14}{subsubsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.2}بخش دوم}{15}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}معماری مدل}{15}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2}پارامترهای آموزش}{16}{subsubsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.3}بخش سوم}{17}{subsection.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.1}Denoising Auto-Encoder}{17}{subsubsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.2}Classifier}{20}{subsubsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.4}بخش چهارم}{24}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}بخش پنجم}{25}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}بخش ششم}{27}{subsection.3.6}%

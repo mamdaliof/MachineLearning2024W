@@ -1,7 +1,12 @@
-\contentsline {figure}{\numberline {1}{\ignorespaces نمودار توزیع داده}}{9}{figure.caption.5}%
-\contentsline {figure}{\numberline {2}{\ignorespaces \relax }}{11}{figure.caption.7}%
-\contentsline {figure}{\numberline {3}{\ignorespaces Sex over Drug}}{12}{figure.caption.8}%
-\contentsline {figure}{\numberline {5}{\ignorespaces Hyper-parameters Graph}}{15}{figure.caption.10}%
-\contentsline {figure}{\numberline {6}{\ignorespaces Best Tree}}{16}{figure.caption.11}%
-\contentsline {figure}{\numberline {8}{\ignorespaces \relax }}{18}{figure.caption.13}%
-\contentsline {figure}{\numberline {9}{\ignorespaces نحوه عملکرد و آموزش مدل AdaBoost \cite {towardsdatascience2020ensemblelearning}}}{19}{figure.caption.14}%
+\contentsline {figure}{\numberline {1}{\ignorespaces Loss value of train and test set on denoising auto-encoder}}{20}{figure.caption.7}%
+\contentsline {figure}{\numberline {2}{\ignorespaces Classification loss}}{23}{figure.caption.8}%
+\contentsline {figure}{\numberline {3}{\ignorespaces Classification Recall}}{23}{figure.caption.9}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Classification Accuracy}}{24}{figure.caption.10}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Confusion matrix}}{25}{figure.caption.11}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Threshold effect on accuracy and recall}}{26}{figure.caption.12}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Loss value of train and test set on denoising auto-encoder}}{27}{figure.caption.13}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Loss value of training}}{28}{figure.caption.14}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Recall of training}}{28}{figure.caption.15}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Accuracy of training}}{29}{figure.caption.16}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Confusion matrix}}{30}{figure.caption.17}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Threshold effect on recall and accuracy}}{31}{figure.caption.18}%
